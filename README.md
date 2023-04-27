@@ -1,1 +1,1 @@
-# team_thierry_rIchard
+# team_thierry_richard
