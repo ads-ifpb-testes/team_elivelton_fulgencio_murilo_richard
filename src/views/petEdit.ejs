@@ -1,0 +1,56 @@
+<%- include ('partials/header.ejs'); %>
+<style>
+        button {
+            all: unset;
+        }
+
+        .logo-happy-pet svg {
+            width: 20vw;
+            height: 8vh;
+            fill: #fff;
+        }
+
+        .back-button{
+            margin-top: -2vw;
+        }
+
+        input{
+            border: 0;
+        }
+</style>
+<body>
+    <div class="form bg-secondary p-5 text-white w-100 d-flex flex-column align-items-center justify-content-center">
+        <div class="back-button d-flex justify-content-start w-100">
+            <a href="/home" class="text-white pb-3 fs-4"><i class="fa-solid fa-arrow-left"></i></a>
+        </div>
+        <div class="logo-happy-pet">
+            <%- include ('partials/logo.ejs') %>
+        </div>
+        <h1>EDITAR PET</h1>
+        <div class="form-pet">
+            <form action="/pet/edit" method="POST">
+                <input type="hidden" name="id" value="<%= pet.id %>">
+                <label for="nome">Nome</label>
+            </br>
+                <input type="text" name="nome" id="nomePet" value="<%= pet.nome %>" class="rounded-1 <%= erro && erro.path[0]==="nome" ? 'border border-danger' : '' %>">
+            </br>
+                <label for="tutor">Tutor</label>
+            </br>
+                <input type="text" name="tutor" id="tutorPet" value="<%= pet.tutor %>" class="rounded-1 <%= erro && erro.path[0]==="tutor" ? 'border border-danger' : '' %> ">
+            </br>
+                <label for="telefone">Telefone</label>
+            </br>
+                <input type="text" name="telefone" id="telefonePet" value="<%= pet.telefone %>" class="rounded-1 <%= erro && erro.path[0]==="telefone" ? 'border border-danger' : '' %> ">
+            </br>
+                <label for="endereco">Endereco</label>
+            </br>
+                <input type="text" name="endereco" id="enderecoPet" value="<%= pet.endereco %>" class="rounded-1 <%= erro && erro.path[0]==="endereco" ? 'border border-danger' : '' %> ">
+            </br>
+            <div class="button-send d-flex justify-content-center mt-4">
+                <button type="submit" class="btn btn-outline-light w-100">Enviar</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</body>
+<%- include ('partials/footer.ejs'); %>

@@ -1,0 +1,25 @@
+<%- include ('partials/header.ejs'); %>
+<%- include ('partials/navbar.ejs'); %>
+<style>
+    .bg-gray{
+        background-color: #f8f8f8;
+    }
+    .button-decision{
+        width: 6vw;
+    }
+</style>
+<body>
+    <div class="d-flex justify-content-center align-items-center w-100 mt-5">
+        <div class="form-delete p-5 shadow-sm p-3 mb-5 bg-gray rounded">
+            <form action="<%= url %>" method="POST">
+                <h1>Deseja deletar <%= obj %>?</h1>
+                <input type="hidden" name="id" value="<%= id %>">
+                <div class="buttons-decision d-flex justify-content-center gap-3">
+                    <a href="<%= backUrl %>" class="btn btn-danger fs-5 button-decision">Não</a>
+                    <button class="btn btn-primary fs-5 button-decision">Sim</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+<%- include ('partials/footer.ejs'); %>

@@ -1,0 +1,68 @@
+<%- include ('partials/header.ejs'); %>
+<style>
+     button {
+            all: unset;
+        }
+
+        .logo-happy-pet svg {
+            width: 20vw;
+            height: 8vh;
+            fill: #fff;
+        }
+
+        .back-button{
+            margin-top: -2vw;
+        }
+
+        input{
+            border: 0;
+        }
+</style>
+<body>
+    <div class="form bg-secondary p-5 text-white w-100 d-flex flex-column align-items-center justify-content-center">
+        <div class="back-button d-flex justify-content-start w-100">
+            <a href="/responsavel" class="text-white pb-3 fs-4"><i class="fa-solid fa-arrow-left"></i></a>
+        </div>
+        <div class="logo-happy-pet">
+            <%- include ('partials/logo.ejs') %>
+        </div>
+        <h1>EDITAR RESPONSÁVEL</h1>
+        <div class="form-responsavel">
+            <form action="/responsavel/edit" method="post">
+                <input type="hidden" name="id" value="<%= responsavel.id %>">
+                <label for="nome">Nome</label>
+            </br>
+                <input type="text" name="nome" id="nomeRes" value="<%= responsavel.nome %>" class="rounded-1 <%= erro && erro.path[0]==="nome" ? 'border border-danger' : '' %> ">
+            </br>
+                <label for="funcao">Função</label>
+            </br>
+                <input type="text" name="funcao" id="funcaoRes" value="<%= responsavel.funcao %>" class="rounded-1 <%= erro && erro.path[0]==="funcao" ? 'border border-danger' : '' %> ">
+            </br>
+                <label for="telefone">Telefone</label>
+            </br>
+                <input type="text" name="telefone" id="telefoneRes" value="<%= responsavel.telefone %>" class="rounded-1 <%= erro && erro.path[0]==="telefone" ? 'border border-danger' : '' %> ">
+            </br>
+                <label for="email">Email</label>
+            </br>
+                <input type="email" name="email" id="emailRes" value="<%= responsavel.email %>" class="rounded-1 <%= erro && erro.path[0]==="email" ? 'border border-danger' : '' %> ">
+            </br>
+                <label for="senha">Senha antiga</label>
+            </br>
+                <input type="password" name="senhaAntiga" id="senhaRes" class="rounded-1 <%= erro && erro.path[0]==="senha" ? 'border border-danger' : '' %> ">
+            </br>
+                <label for="senha">Senha nova</label>
+            </br>
+                <input type="password" name="senhaNova" class="rounded-1 <%= erro && erro.path[0]==="senha" ? 'border border-danger' : '' %> ">
+            </br>
+                <label for="passwordConf">Confirmar senha</label>
+            </br>
+                <input type="password" name="senhaConf" id="senhaResConf" class="rounded-1 <%= erro && erro.path[0]==="senhaConf" ? 'border border-danger' : '' %> ">
+            </br>
+            <div class="button-send d-flex justify-content-center mt-4">
+                <button type="submit" class="btn btn-outline-light w-100">Enviar</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</body>
+<%- include ('partials/footer.ejs'); %>
