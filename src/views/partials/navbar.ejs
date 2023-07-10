@@ -1,0 +1,55 @@
+<style>
+        .navbar-brand svg {
+                width: 23vw;
+                height: 8vh;
+                fill: #fff;
+        }
+
+        .navbar-toggler {
+                border: none;
+        }
+        .navbar-toggler:focus {
+                box-shadow: none;
+        }
+
+        #loginButton,
+        #logoutButton {
+                all: unset;
+        }
+
+        .log-buttons {
+                margin-top: -2vw;
+        }
+</style>
+
+<nav class="navbar navbar-primary bg-primary">
+        <div class="container-fluid justify-content-between">
+                <a class="navbar-brand" href="/">
+                        <%- include ('logo.ejs') %>
+                </a>
+                <div class="toggler d-flex">
+                        <% if(user){%>
+                                <div class="d-flex">
+                                        <span class="text-white text-wrap fs-5 fw-medium align-self-center">Olá, <%= user.nome.split(" ")[0] %>!</span>
+                                </div>
+                        <% } %>
+                        <button class="navbar-toggler align-self-center" type=" button" data-bs-toggle="collapse"
+                                                data-bs-target="#navbarToggleExternalContent"
+                                                aria-controls="navbarToggleExternalContent" aria-expanded="false"
+                                                aria-label="Toggle navigation">
+                                                <span class="text-white fs-3"><i class="fa-solid fa-user"></i></span>
+                                                </button>
+                </div>
+        </div>
+</nav>
+
+<div class="collapse bg-primary" id="navbarToggleExternalContent">
+        <div class="button-areas p-4 d-flex justify-content-end align-items-sm-start">
+                <div class="d-flex flex-column log-buttons">
+                        <a href="/responsavel/login"><button id="loginButton" class=" text-white fs-6">Login</button></a>
+                        <% if (user) { %>
+                                <a href="/responsavel/logout"><button id="logoutButton" class="text-white fs-6">Logout</button></a>
+                                <% } %>
+                </div>
+        </div>
+</div>

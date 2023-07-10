@@ -1,0 +1,35 @@
+{
+  "atendimentoTipos": [
+    {
+      "id": 1,
+      "tipo": "Banho"
+    },
+    {
+      "id": 2,
+      "tipo": "Tosa"
+    },
+    {
+      "id": 3,
+      "tipo": "Veterinário"
+    }
+  ],
+  "petsDeletados": [
+    {
+      "id": 0,
+      "nome": "Pet deletado",
+      "tutor": "Pet deletado",
+      "telefone": "Pet deletado",
+      "endereco": "Pet deletado"
+    }
+  ],
+  "responsaveisDeletados": [
+    {
+      "id": 0,
+      "nome": "Responsável deletado",
+      "funcao": "Responsável deletado",
+      "telefone": "Responsável deletado",
+      "email": "Responsável deletado",
+      "senha": "Responsável deletado"
+    }
+  ]
+}

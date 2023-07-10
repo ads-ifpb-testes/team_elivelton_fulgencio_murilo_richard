@@ -1,0 +1,135 @@
+<%- include ('partials/header.ejs'); %> <%- include ('partials/navbar.ejs'); %>
+    <style>
+
+      button {
+        all: unset;
+      }
+
+      .card {
+        min-height: 50vh;
+        max-height: 50vh;
+      }
+
+      .status {
+        padding-left: 0.2vw;
+        display: flex;
+        align-items: center;
+        gap: 0.4vw;
+      }
+
+      .form-search{
+        width: 38rem;
+      }
+    </style>
+
+    <body>
+      <div class="actions-buttons d-flex justify-content-center bg-primary h-100 w-100 p-5">
+        <div class="button-atendimento d-flex flex-column align-items-center w-25">
+          <a href="/atendimento">
+            <button class="text-white fs-1">
+              <i class="fas fa-calendar-check"></i>
+            </button>
+          </a>
+          <span class="text-white pe-none user-select-none">Cadastrar atendimento</span>
+        </div>
+        <div class="button-responsavel d-flex flex-column align-items-center w-25">
+          <a href="/responsavel"><button class="text-white fs-1"><i class="fas fa-user-md"></i></button></a>
+          <span class="text-white pe-none user-select-none">Cadastrar responsavel</span>
+        </div>
+        <div class="button-pet d-flex flex-column align-items-center w-25">
+          <a href="/pet"><button class="text-white fs-1"><i class="fas fa-paw"></i></button></a>
+          <span class="text-white pe-none user-select-none">Cadastrar pet</span>
+        </div>
+      </div>
+
+      <div class="form-search search m-2 p-3 border">
+        <form action="/home" method="POST" class="gap-3 d-flex flex-row justify-content-between align-items-center">
+            <div class="descricao-search ">
+              <label for="descricao" class="fw-semibold">Descrição:</label>
+              <input name="descricao" class="rounded-1 border-1">
+            </div>
+            <div class="type-search">
+              <select name="tipoAtendimento">
+                  <option value="">Todos os tipos</option>
+                  <% for (let tipo of tipos) { %>
+                      <option value="<%= tipo.tipo %>"><%= tipo.tipo %></option>    
+                  <% } %>
+              </select>
+            </div>
+            <div class="button-search">
+              <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+          </div>
+      </form>
+      </div>
+
+
+      <div class="card-group pt-5 pb-3 d-flex justify-content-center flex-row gap-5 bg-white">
+
+        <% if (atendimentos.length> 0) { %> <% for(let atendimento of atendimentos) { %>
+            <div class="card-atendimentos col-sm-6 col-lg-4 col-xl-3 mb-3">
+              <div class="card">
+                <div class="card-header text-start d-flex flex-column">
+                  <div class="actions-card d-flex justify-content-end">
+                    <span class="d-flex gap-2">
+                      <form action="/atendimento/complete" method="POST">
+                        <input type="hidden" name="id" value="<%= atendimento.id %>" />
+                        <button class="text-dark fa-solid fa-check" type="submit"></button>
+                      </form>
+                      <form action="/atendimento/edit" method="GET">
+                        <input type="hidden" name="id" value="<%= atendimento.id %>" />
+                        <button class="text-dark fas fa-pen" type="submit"></button>
+                      </form>
+                      <form action="/atendimento/delete" method="GET">
+                        <input type="hidden" name="id" value="<%= atendimento.id %>" />
+                        <button class="text-dark fas fa-trash" type="submit"></button>
+                      </form>
+                    </span>
+                  </div>
+                  <div class="d-flex justify-content-between pt-2">
+                    <div class="title-atendimento">
+
+                      <i class="fa-solid fa-shield-dog fs-4"></i>
+                      <span class="align-self-center fs-5 fw-semibold">
+                        <%= atendimento.tipoAtendimento %>
+                      </span>
+                    </div>
+                    <span class="align-self-center text-muted fw-medium">
+                      <%= atendimento.date %>
+                    </span>
+                  </div>
+                </div>
+                <div class="card-body overflow-auto mh-100">
+                  <p class="card-text">
+                    <%= atendimento.descricao %>
+                  </p>
+                </div>
+                <div class="card-footer d-flex flex-column">
+                  <div class="pet d-flex gap-1 align-items-center">
+                    <i class="fas fa-dog"></i><span class="fw-semibold">Pet: <%= atendimento.pet %></span>
+                  </div>
+                  <div class="responsavel d-flex gap-1 align-items-center">
+                    <i class="fa-sharp fa-solid fa-stethoscope"></i><span class="fw-semibold">Responsável: <%=
+                        atendimento.responsavel %></span>
+                  </div>
+                  <div class="status">
+                    <% if(atendimento.complete=="1" ){ %>
+                      <i class="fa-solid fa-check fs-6"></i>
+                      <% } else{ %>
+                        <i class="fa-solid fa-x fs-5"></i>
+                        <% } %>
+                          <span class="fw-semibold">
+                            Status: <span class="fw-semibold rounded-1 text-white px-1 <%= atendimento.complete == " 1"
+                              ? "bg-success" : "bg-danger" %>"><%= atendimento.complete=="1" ? "Completo" : "Pendente"
+                                %></span>
+                          </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% } %>
+              <% } %>
+      </div>
+
+      <%- include ('partials/scripts.ejs'); %>
+    </body>
+    <%- include ('partials/footer.ejs'); %>

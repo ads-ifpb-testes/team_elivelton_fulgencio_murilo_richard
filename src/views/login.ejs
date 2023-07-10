@@ -1,0 +1,50 @@
+<%- include ('partials/header.ejs'); %>
+
+<style>
+            button {
+            all: unset;
+        }
+
+        .logo-happy-pet svg {
+            width: 20vw;
+            height: 8vh;
+            fill: #fff;
+        }
+
+        .back-button {
+            margin-top: -2vw;
+        }
+
+        input{
+            border: 0;
+        }
+</style>
+
+<body>
+    <div class="form bg-secondary p-5 text-white w-100 min-vh-100 d-flex flex-column align-items-center justify-content-center">
+        <div class="back-button d-flex align-self-start w-100 position-absolute fixed-top pt-5 px-3">
+            <a href="/home" class="text-white pb-3 fs-4"><i class="fa-solid fa-arrow-left"></i></a>
+        </div>
+        <div class="logo-happy-pet">
+            <%- include ('partials/logo.ejs') %>
+        </div>
+        <h1>ENTRE NA SUA CONTA</h1>
+        <div class="form-login">
+            <form action="/responsavel/login" method="post">
+                <label for="email">Email</label>
+            </br>
+                <input type="email" name="email" class="rounded-1">
+            </br>
+                <label for="senha" class="mt-2">Senha</label>
+            </br>
+                <input type="password" name="senha" class="rounded-1">
+            </br>
+            <div class="button-send d-flex justify-content-center mt-4">
+                <button type="submit" class="btn btn-outline-light w-100">Entrar</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+<%- include ('partials/footer.ejs'); %>
