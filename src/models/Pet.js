@@ -1,6 +1,11 @@
 const { conn } = require("../db");
 
 async function create(data) {
+  for (const campo in data){
+    if(data[campo].length<1){
+      return -1;
+    }
+  }
   const sql = `
   INSERT INTO 
     pets (nome, tutor, telefone, endereco, id) 
@@ -70,6 +75,11 @@ async function readById(id) {
 }
 
 async function update(id, data) {
+  for (const campo in data){
+    if(data[campo].length<1){
+      return -1;
+    }
+  }
   const sql = `
     UPDATE
       pets
