@@ -12,4 +12,11 @@ describe("Serviço de pets", () => {
 
         expect(qntPetsDepois).toBe(qntPetsAntes+1);
     });
+
+    test('Deve ser possível pesquisar um pet pelo nome', async () => {
+      const nome = 'Fuleco';
+      const pet = await Pet.search(nome);
+      expect(pet).toBeDefined();
+      expect(pet.some((pet) => pet.nome === nome)).toBe(true);
+    });
 });
