@@ -2,7 +2,12 @@ const Responsavel = require('../models/Responsaveis');
 
 describe('Serviço de responsaveis', () => {
     test('Deve ser criar um responsável', async () => {
-        const responsavel = { nome: 'Dr. Hans Chucrute', funcao: 'Veterinário', telefone: '309293848', senha: '12345', email: 'doctorRey@gmail.com' };
+        const responsavel = { 
+            nome: 'Dr. Hans Chucrute', 
+            funcao: 'Veterinário', 
+            telefone: '309293848', 
+            senha: '12345', 
+            email: 'doctorRey@gmail.com' };
 
         const responsaveisAntes = await Responsavel.readAll();
         const qntResponsaveisAntes = responsaveisAntes.length;
@@ -32,7 +37,5 @@ describe('Serviço de responsaveis', () => {
 
         expect(destroy).toBe(0);
     })
-
-
 
 })
