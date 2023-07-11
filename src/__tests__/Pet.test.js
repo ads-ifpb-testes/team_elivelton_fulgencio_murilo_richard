@@ -118,4 +118,11 @@ describe("Serviço de pets", () => {
       expect(e).toMatchObject({code:"SQLITE_CONSTRAINT"});
     }
   })
+
+  test("Não deve ser possível criar um pet com um campo vazio", async () => {
+    const pet1 = { nome: 'Bidu', tutor: '', telefone: '333333', endereco: 'IFPB' };
+    const petCriado1 = await Pet.create(pet1);
+    
+    expect(petCriado1).toBe(-1);
+  })
 });
