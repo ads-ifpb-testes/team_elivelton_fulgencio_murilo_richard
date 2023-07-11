@@ -81,9 +81,28 @@ describe("Serviço de pets", () => {
 
     expect(qtdPets).toBeLessThanOrEqual(5);
   });
+
   test("Devem ser possível listar até os 5 primeiros pets do banco com readFirst5", async () => {
     const pets = await Pet.readFirst5();
     const qtdPets = pets.length;
     expect(qtdPets).toBeLessThanOrEqual(5);
   });
+
+  test("Deve ser possível criar um pet informando o id", async () => {
+    const pets = await Pet.readAll();
+    const indice = pets.length - 1;
+    const id = pets[indice].id+1;
+
+    const pet1 = { nome: 'Pet com id', tutor: 'João', telefone: '1121312', endereco: 'IFPB', id:id };
+    
+    const petsAntes = await Pet.readAll();
+    const qntPetsAntes = petsAntes.length;
+    
+    await Pet.create(pet1);
+
+    const petsDepois = await Pet.readAll();
+    const qntPetsDepois = petsDepois.length;
+    
+    expect(qntPetsDepois).toBe(qntPetsAntes + 1);
+  })
 });
