@@ -24,7 +24,10 @@ describe('Serviço de pets', () => {
   });
 
   test('Deve ser possível encontrar um pet pelo id', async () => {
-    const id = 1;
+    const pets = await Pet.readAll();
+    const indice = pets.length - 1;
+    const id = pets[indice].id;
+
     const pet = await Pet.readById(id);
 
     expect(pet).toBeDefined();
@@ -32,11 +35,29 @@ describe('Serviço de pets', () => {
   });
 
   test('Deve ser possível atualizar um pet através do id', async () => {
-    const id = 1;
-    const pet = { nome: 'Caramelo', tutor: 'Shelby', telefone: '834545932', endereco: 'Terra de Ninguém' };
+    const pets = await Pet.readAll();
+    const indice = pets.length - 1;
+    const id = pets[indice].id;
+
+    const pet = {
+      nome: 'Caramelo',
+      tutor: 'Shelby',
+      telefone: '834545932',
+      endereco: 'Terra de Ninguém',
+    };
 
     const update = await Pet.update(id, pet);
 
     expect(update).toBe(1);
+  });
+
+  test('Deve ser possível deletar um pet através do id', async () => {
+    const pets = await Pet.readAll();
+    const indice = pets.length - 1;
+    const id = pets[indice].id;
+
+    const destroy = await Pet.destroy(id);
+
+    expect(destroy).toBe(0);
   });
 });
