@@ -27,6 +27,14 @@ describe('Serviço de responsaveis', () => {
         expect(responsavel).toBeDefined();
     })
 
+    test('Deve ser possível encontrar responsável pelo nome pelo nome', async () => {
+        //procurando nome cadastrado no teste de criação de responsável
+        const nome = 'Dr. Hans Chucrute';
+        const responsavel = await Responsavel.readByName(nome)
+        expect(responsavel).toBeDefined();
+        expect(responsavel.some((responsavel) => responsavel.nome === nome)).toBe(true);
+    })
+
     test('Deve ser possível deletar um responsável', async () => {
         //ultilizando de exemplo o último responsável criado pelo teste
         const responsaveis = await Responsavel.readAll();
@@ -37,5 +45,9 @@ describe('Serviço de responsaveis', () => {
 
         expect(destroy).toBe(0);
     })
+
+    
+
+
 
 })
