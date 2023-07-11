@@ -104,5 +104,18 @@ describe("Serviço de pets", () => {
     const qntPetsDepois = petsDepois.length;
     
     expect(qntPetsDepois).toBe(qntPetsAntes + 1);
+  });
+
+  test("Não deve ser possível criar um pet com um Id que já está no banco", async () => {
+    const pet1 = { nome: 'Pet1', tutor: 'Tutor1', telefone: 'Telefone1', endereco: 'Endereço1' };
+    const petCriado1 = await Pet.create(pet1);
+    
+    const pet2 = { nome: 'Pet2', tutor: 'Tutor2', telefone: 'Telefone2', endereco: 'Endereço2', id:petCriado1 };
+
+    try{
+      await Pet.create(pet2)
+    } catch (e){
+      expect(e).toMatchObject({code:"SQLITE_CONSTRAINT"});
+    }
   })
 });
