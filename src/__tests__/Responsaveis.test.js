@@ -79,4 +79,31 @@ describe("Serviço de responsaveis", () => {
 
     await Responsavel.destroy(deleteResponsavel1.id);
   });
+
+  
+  test("Deve atualizar o responsável com o ID fornecido", async () => {
+    const responsavel = {
+      nome: "nomeExemplo",
+      funcao: "funcaoExemplo",
+      telefone: "telefoneExemplo",
+      senha: "12345",
+      email: "emailExemplo@gmail.com",
+    };
+
+    const responsavelCriado = await Responsavel.create(responsavel);
+
+    const data = {
+      nome: "Fulano Atualizado",
+      funcao: "Gerente",
+      telefone: "123456789",
+      email: 'emailExemplo2@gmail.com',
+      senha: "123456",
+    };
+
+    const result = await Responsavel.update(responsavelCriado, data);
+
+    expect(result).toBe(1);
+
+    await Responsavel.destroy(responsavelCriado);
+  });
 });
