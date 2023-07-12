@@ -15,25 +15,29 @@ describe('Integração com o banco de dados', () => {
       email: 'doctorReyaa@gmail.com',
     };
 
-    const petCriado = await Pet.create(pet);
-    const responsavelCriado = await Responsavel.create(responsavel);
-    await AtendimentoTipo.create('Banho');
-
+    const petCriado = await Pet.create(pet, true);
+    const responsavelCriado = await Responsavel.create(responsavel, true);
+    const tipoCriado = await AtendimentoTipo.create({ tipo: 'Atendimento teste'}, true);
+    
     const atendimento = {
-      tipoAtendimento: 'Banho',
+      tipoAtendimento: 'Atendimento teste',
       responsavel: responsavelCriado,
-      descricao: 'Dar banho no pet',
+      descricao: 'Dar Atendimento teste no pet',
       pet: petCriado,
       date: `${new Date()}`,
     };
-    const atendimentoAntes = await Atendimento.readAll();
+    const atendimentoAntes = await Atendimento.readAll(true);
     const qntAtendimentoAntes = atendimentoAntes.length;
-
-    await Atendimento.create(atendimento);
-
-    const atendimentoDepois = await Atendimento.readAll();
+    
+    await Atendimento.create(atendimento, true);
+    
+    const atendimentoDepois = await Atendimento.readAll(true);
     const qntAtendimentoDepois = atendimentoDepois.length;
-
+    
     expect(qntAtendimentoDepois).toBe(qntAtendimentoAntes + 1);
+    await Responsavel.destroy(responsavelCriado, true)
+    await Pet.destroy(petCriado, true)
+    await AtendimentoTipo.destroy(tipoCriado, true)
+    // console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa");
   });
 });
