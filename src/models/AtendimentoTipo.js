@@ -113,7 +113,7 @@ async function update(id, data, test) {
 async function destroy(id, test) {
   const sql = `
     DELETE FROM
-      atendimento
+      atendimentoTipo
     WHERE
       id = ?
   `;

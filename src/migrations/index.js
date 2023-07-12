@@ -14,7 +14,8 @@ async function up() {
       date DATETIME,
       complete INTEGER,
       FOREIGN KEY (responsavel) REFERENCES responsaveis (id) ON DELETE SET DEFAULT,
-      FOREIGN KEY (pet) REFERENCES pets (id) ON DELETE SET DEFAULT
+      FOREIGN KEY (pet) REFERENCES pets (id) ON DELETE SET DEFAULT,
+      FOREIGN KEY (tipoAtendimento) REFERENCES atendimentoTipo (tipo) ON DELETE CASCADE
     )
   `),
     await dbTest.run(`
@@ -27,7 +28,8 @@ async function up() {
       date DATETIME,
       complete INTEGER,
       FOREIGN KEY (responsavel) REFERENCES responsaveis (id) ON DELETE SET DEFAULT,
-      FOREIGN KEY (pet) REFERENCES pets (id) ON DELETE SET DEFAULT
+      FOREIGN KEY (pet) REFERENCES pets (id) ON DELETE SET DEFAULT,
+      FOREIGN KEY (tipoAtendimento) REFERENCES atendimentoTipo (tipo) ON DELETE CASCADE
     )
   `),
   ]);
