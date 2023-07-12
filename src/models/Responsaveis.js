@@ -1,6 +1,11 @@
 const { conn } = require("../db");
 
 async function create(data) {
+  for (const campo in data) {
+    if (data[campo].length < 1) {
+      return -1;
+    }
+  }
   const sql = `
   INSERT INTO 
     responsaveis (nome, funcao, telefone, email, senha, id) 
@@ -12,7 +17,14 @@ async function create(data) {
 
   const { nome, funcao, telefone, email, senha, id } = data;
 
-  const { lastID } = await db.run(sql, [nome, funcao, telefone, email, senha, id]);
+  const { lastID } = await db.run(sql, [
+    nome,
+    funcao,
+    telefone,
+    email,
+    senha,
+    id,
+  ]);
 
   return lastID;
 }
@@ -95,6 +107,11 @@ async function readByEmail(email) {
 }
 
 async function update(id, data) {
+  for (const campo in data) {
+    if (data[campo].length < 1) {
+      return -1;
+    }
+  }
   const sql = `
     UPDATE
       responsaveis
@@ -108,7 +125,14 @@ async function update(id, data) {
 
   const { nome, funcao, telefone, email, senha } = data;
 
-  const { changes } = await db.run(sql, [nome, funcao, telefone, email, senha, id]);
+  const { changes } = await db.run(sql, [
+    nome,
+    funcao,
+    telefone,
+    email,
+    senha,
+    id,
+  ]);
 
   return changes;
 }
