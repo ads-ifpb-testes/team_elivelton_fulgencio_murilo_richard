@@ -4,19 +4,15 @@ const Responsavel = require('../../models/Responsaveis');
 const Atendimento = require('../../models/Atendimentos');
 const AtendimentoTipo = require('../../models/AtendimentoTipo');
 
-const { conn } = require('../../db');
-const { up } = require('../../migrations/index');
-
 describe('Integração com o banco de dados', () => {
-
   test('Deve ser possível criar um atendimento', async () => {
     const pet = { nome: 'Fuleco', tutor: 'Eli', telefone: '8394584656', endereco: 'Sitio Saco' };
     const responsavel = {
-      nome: 'Dr. Hans Chucrute',
+      nome: 'Dr. Hans Chucruteee',
       funcao: 'Veterinário',
       telefone: '309293848',
       senha: '12345',
-      email: 'doctorRey@gmail.com',
+      email: 'doctorReyaa@gmail.com',
     };
 
     const petCriado = await Pet.create(pet);
