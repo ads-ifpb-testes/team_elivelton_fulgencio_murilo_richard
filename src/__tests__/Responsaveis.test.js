@@ -21,6 +21,18 @@ describe("Serviço de responsaveis", () => {
     expect(qntResponsaveisDepois).toBe(qntResponsaveisAntes + 1);
   });
 
+  test("Deve ser possível encontrar um responsável pelo id", async () => {
+    //procurando id cadastrado pelo banco no teste de criação de responsável
+    const responsaveis = await Responsavel.readAll();
+    const indice = responsaveis.length - 1;
+    const id = responsaveis[indice].id;
+
+    const responsavel = await Responsavel.readById(id);
+
+    expect(responsavel).toBeDefined();
+    expect(responsavel.id).toBe(id);
+  });
+
   test("Deve ser possível encontrar responsável pelo email", async () => {
     //procurando email cadastrado no teste de criação de responsável
     const email = "doctorRey@gmail.com";
@@ -113,7 +125,7 @@ describe("Serviço de responsaveis", () => {
     await Responsavel.destroy(deleteResponsavel1.id);
   });
 
-  test("Deve atualizar o responsável com o ID fornecido", async () => {
+  test("Deve ser possível atualizar o responsável com o ID fornecido", async () => {
     const responsavel = {
       nome: "nomeExemplo",
       funcao: "funcaoExemplo",
