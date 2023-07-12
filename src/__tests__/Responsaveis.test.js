@@ -1,7 +1,7 @@
 const Responsavel = require("../models/Responsaveis");
 
 describe("Serviço de responsaveis", () => {
-  test("Deve ser criar um responsável", async () => {
+  test("Deve ser possível criar um responsável", async () => {
     const responsavel = {
       nome: "Dr. Hans Chucrute",
       funcao: "Veterinário",
@@ -19,6 +19,18 @@ describe("Serviço de responsaveis", () => {
     const qntResponsaveisDepois = responsaveisDepois.length;
 
     expect(qntResponsaveisDepois).toBe(qntResponsaveisAntes + 1);
+  });
+
+  test("Deve ser possível encontrar um responsável pelo id", async () => {
+    //procurando id cadastrado pelo banco no teste de criação de responsável
+    const responsaveis = await Responsavel.readAll();
+    const indice = responsaveis.length - 1;
+    const id = responsaveis[indice].id;
+
+    const responsavel = await Responsavel.readById(id);
+
+    expect(responsavel).toBeDefined();
+    expect(responsavel.id).toBe(id);
   });
 
   test("Deve ser possível encontrar responsável pelo email", async () => {
@@ -72,16 +84,48 @@ describe("Serviço de responsaveis", () => {
     try {
       await Responsavel.create(responsavel2);
     } catch (e) {
-        console.log(e);
       expect(e).toMatchObject({ code: "SQLITE_CONSTRAINT" });
     }
-    const deleteResponsavel1 = await Responsavel.readByEmail("emailExemplo@gmail.com");
+    const deleteResponsavel1 = await Responsavel.readByEmail(
+      "emailExemplo@gmail.com"
+    );
 
     await Responsavel.destroy(deleteResponsavel1.id);
   });
 
-  
-  test("Deve atualizar o responsável com o ID fornecido", async () => {
+  test("Não deve ser possível criar um responsavel com um Email que já está no banco", async () => {
+    const responsavel1 = {
+      nome: "nomeExemplo",
+      funcao: "funcaoExemplo",
+      telefone: "telefoneExemplo",
+      senha: "12345",
+      email: "emailExemplo@gmail.com",
+    };
+
+    await Responsavel.create(responsavel1);
+
+    const responsavel2 = {
+      nome: "nomeExemplo2",
+      funcao: "funcaoExemplo2",
+      telefone: "telefoneExemplo2",
+      senha: "123452",
+      email: responsavel1.email,
+    };
+
+    try {
+      await Responsavel.create(responsavel2);
+    } catch (e) {
+      expect(e).toMatchObject({ code: "SQLITE_CONSTRAINT" });
+    }
+
+    const deleteResponsavel1 = await Responsavel.readByEmail(
+      "emailExemplo@gmail.com"
+    );
+
+    await Responsavel.destroy(deleteResponsavel1.id);
+  });
+
+  test("Deve ser possível atualizar o responsável com o ID fornecido", async () => {
     const responsavel = {
       nome: "nomeExemplo",
       funcao: "funcaoExemplo",
@@ -96,7 +140,7 @@ describe("Serviço de responsaveis", () => {
       nome: "Fulano Atualizado",
       funcao: "Gerente",
       telefone: "123456789",
-      email: 'emailExemplo2@gmail.com',
+      email: "emailExemplo2@gmail.com",
       senha: "123456",
     };
 
