@@ -11,7 +11,7 @@ async function create(data) {
   const db = await conn();
 
   let { tipoAtendimento, responsavel, pet, descricao, date, completo } = data;
-  console.log(new Date(date).toISOString().slice(0,16));
+  //console.log(new Date(date).toISOString().slice(0,16));
   date = new Date(date).toISOString().slice(0,16)
   const { lastID } = await db.run(sql, [tipoAtendimento, responsavel, pet, descricao, date, completo]);
 
