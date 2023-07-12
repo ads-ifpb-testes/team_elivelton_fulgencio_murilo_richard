@@ -150,4 +150,18 @@ describe("Serviço de responsaveis", () => {
 
     await Responsavel.destroy(responsavelCriado);
   });
+
+  test("Não deve ser possível criar um responsável com um dos campos vazios", async () => {
+    const responsavel = {
+      nome: "nomeExemplo",
+      funcao: "",
+      telefone: "telefoneExemplo",
+      senha: "12345",
+      email: "emailExemplo@gmail.com",
+    };
+
+    const responsavelCriado = await Responsavel.create(responsavel);
+
+    expect(responsavelCriado).toBe(-1);
+  });
 });
