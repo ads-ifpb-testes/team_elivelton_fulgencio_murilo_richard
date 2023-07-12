@@ -1,6 +1,6 @@
-const { conn } = require("../db");
+const { conn, connTest } = require('../db');
 
-async function create(data) {
+async function create(data, test) {
   for (const campo in data) {
     if (data[campo].length < 1) {
       return -1;
@@ -13,23 +13,21 @@ async function create(data) {
     (?, ?, ?, ?, ?, ?)
   `;
 
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   const { nome, funcao, telefone, email, senha, id } = data;
 
-  const { lastID } = await db.run(sql, [
-    nome,
-    funcao,
-    telefone,
-    email,
-    senha,
-    id,
-  ]);
+  const { lastID } = await db.run(sql, [nome, funcao, telefone, email, senha, id]);
 
   return lastID;
 }
 
-async function readAll() {
+async function readAll(test) {
   const sql = `
     SELECT
       id,
@@ -43,14 +41,19 @@ async function readAll() {
       id <> 0
   `;
 
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   const responsaveis = await db.all(sql);
 
   return responsaveis;
 }
 
-async function readById(id) {
+async function readById(id, test) {
   const sql = `
     SELECT
     *
@@ -60,14 +63,19 @@ async function readById(id) {
       id=? AND id <> 0
   `;
 
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   const responsaveis = await db.get(sql, id);
 
   return responsaveis;
 }
 
-async function search(nome) {
+async function search(nome, test) {
   nome = `%${nome}%`;
   const sql = `
     SELECT
@@ -82,14 +90,19 @@ async function search(nome) {
       nome LIKE ? AND id <> 0
   `;
 
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   const responsaveis = await db.all(sql, nome);
 
   return responsaveis;
 }
 
-async function readByEmail(email) {
+async function readByEmail(email, test) {
   const sql = `
     SELECT
       *
@@ -99,14 +112,19 @@ async function readByEmail(email) {
       email=? AND id <> 0
   `;
 
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   const responsaveis = await db.get(sql, email);
 
   return responsaveis;
 }
 
-async function update(id, data) {
+async function update(id, data, test) {
   for (const campo in data) {
     if (data[campo].length < 1) {
       return -1;
@@ -121,23 +139,21 @@ async function update(id, data) {
       id = ? AND id <> 0
   `;
 
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   const { nome, funcao, telefone, email, senha } = data;
 
-  const { changes } = await db.run(sql, [
-    nome,
-    funcao,
-    telefone,
-    email,
-    senha,
-    id,
-  ]);
+  const { changes } = await db.run(sql, [nome, funcao, telefone, email, senha, id]);
 
   return changes;
 }
 
-async function destroy(id) {
+async function destroy(id, test) {
   const sql = `
     DELETE FROM
       responsaveis
@@ -145,14 +161,19 @@ async function destroy(id) {
       id = ? AND id <> 0
   `;
 
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   const { lastID } = await db.run(sql, [id]);
 
   return lastID;
 }
 
-async function readByName(nome) {
+async function readByName(nome, test) {
   nome = `%${nome}%`;
   const sql = `
     SELECT
@@ -164,14 +185,19 @@ async function readByName(nome) {
     LIMIT 5
   `;
 
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   const responsaveis = await db.all(sql, nome);
 
   return responsaveis;
 }
 
-async function readFirst5() {
+async function readFirst5(test) {
   const sql = `
     SELECT
       nome, id
@@ -182,7 +208,12 @@ async function readFirst5() {
     LIMIT 5
   `;
 
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   const responsaveis = await db.all(sql);
 

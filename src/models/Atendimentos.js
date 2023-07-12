@@ -1,6 +1,6 @@
-const { conn } = require("../db");
+const { conn, connTest } = require('../db');
 
-async function create(data) {
+async function create(data, test) {
   const sql = `
   INSERT INTO 
     atendimentos (tipoAtendimento, responsavel, pet, descricao, date, complete) 
@@ -8,17 +8,29 @@ async function create(data) {
     (?, ?, ?, ?, ?, ?)
   `;
 
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   let { tipoAtendimento, responsavel, pet, descricao, date, completo } = data;
   //console.log(new Date(date).toISOString().slice(0,16));
-  date = new Date(date).toISOString().slice(0,16)
-  const { lastID } = await db.run(sql, [tipoAtendimento, responsavel, pet, descricao, date, completo]);
+  date = new Date(date).toISOString().slice(0, 16);
+  const { lastID } = await db.run(sql, [
+    tipoAtendimento,
+    responsavel,
+    pet,
+    descricao,
+    date,
+    completo,
+  ]);
 
   return lastID;
 }
 
-async function readAll() {
+async function readAll(test) {
   const sql = `
     SELECT
       a.id, a.tipoAtendimento, a.descricao, a.date, r.nome as responsavel, p.nome as pet, a.complete as complete
@@ -36,13 +48,18 @@ async function readAll() {
       complete ASC
   `;
 
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   const atendimentos = await db.all(sql);
 
   for (let atendimento of atendimentos) {
-    let [data, hora] = atendimento.date.split("T");
-    let [ano, mes, dia] = data.split("-");
+    let [data, hora] = atendimento.date.split('T');
+    let [ano, mes, dia] = data.split('-');
     let dataFormatada = `${dia}/${mes}/${ano} às ${hora}`;
     atendimento.date = dataFormatada;
   }
@@ -50,7 +67,7 @@ async function readAll() {
   return atendimentos;
 }
 
-async function readAllAPI() {
+async function readAllAPI(test) {
   const sql = `
     SELECT
       a.id, a.tipoAtendimento, a.descricao, a.date, r.nome as responsavel, p.nome as pet, a.complete as complete
@@ -68,14 +85,19 @@ async function readAllAPI() {
       complete ASC
   `;
 
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   const atendimentos = await db.all(sql);
 
   return atendimentos;
 }
 
-async function search(pesquisa) {
+async function search(pesquisa, test) {
   pesquisa.descricao = `%${pesquisa.descricao}%`;
   pesquisa.tipoAtendimento = `%${pesquisa.tipoAtendimento}%`;
   const sql = `
@@ -97,13 +119,18 @@ async function search(pesquisa) {
       complete ASC
   `;
 
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   const atendimentos = await db.all(sql, pesquisa.tipoAtendimento, pesquisa.descricao);
 
   for (let atendimento of atendimentos) {
-    let [data, hora] = atendimento.date.split("T");
-    let [ano, mes, dia] = data.split("-");
+    let [data, hora] = atendimento.date.split('T');
+    let [ano, mes, dia] = data.split('-');
     let dataFormatada = `${dia}/${mes}/${ano} às ${hora}`;
     atendimento.date = dataFormatada;
   }
@@ -111,7 +138,7 @@ async function search(pesquisa) {
   return atendimentos;
 }
 
-async function readById(id) {
+async function readById(id, test) {
   const sql = `
     SELECT
       a.id, a.tipoAtendimento, a.descricao, a.date, r.nome as responsavel, p.nome as pet, a.complete as complete
@@ -129,14 +156,19 @@ async function readById(id) {
       a.id=?
   `;
 
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   const atendimentos = await db.get(sql, id);
 
   return atendimentos;
 }
 
-async function update(id, data) {
+async function update(id, data, test) {
   const sql = `
     UPDATE
       atendimentos
@@ -146,7 +178,12 @@ async function update(id, data) {
       id = ?
   `;
 
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   const { tipoAtendimento, responsavel, pet, descricao, date } = data;
 
@@ -155,12 +192,12 @@ async function update(id, data) {
   return changes;
 }
 
-async function complete(id) {
+async function complete(id, test) {
   const atendimento = await readById(id);
-  if (atendimento.complete == "0") {
-    atendimento.complete = "1";
+  if (atendimento.complete == '0') {
+    atendimento.complete = '1';
   } else {
-    atendimento.complete = "0";
+    atendimento.complete = '0';
   }
   const sql = `
     UPDATE
@@ -170,14 +207,19 @@ async function complete(id) {
     WHERE
       id = ?
   `;
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   const { changes } = await db.run(sql, [atendimento.complete, id]);
 
   return changes;
 }
 
-async function destroy(id) {
+async function destroy(id, test) {
   const sql = `
     DELETE FROM
       atendimentos
@@ -185,7 +227,12 @@ async function destroy(id) {
       id = ?
   `;
 
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   const { lastID } = await db.run(sql, [id]);
 

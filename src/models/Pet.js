@@ -1,8 +1,8 @@
-const { conn } = require("../db");
+const { conn, connTest } = require('../db');
 
-async function create(data) {
-  for (const campo in data){
-    if(data[campo].length<1){
+async function create(data, test) {
+  for (const campo in data) {
+    if (data[campo].length < 1) {
       return -1;
     }
   }
@@ -12,8 +12,12 @@ async function create(data) {
   VALUES 
     (?, ?, ?, ?, ?)
   `;
-
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   const { nome, tutor, telefone, endereco, id } = data;
 
@@ -22,7 +26,7 @@ async function create(data) {
   return lastID;
 }
 
-async function readAll() {
+async function readAll(test) {
   const sql = `
     SELECT
       *
@@ -32,15 +36,20 @@ async function readAll() {
       id <> 0
   `;
 
-  const db = await conn();
+    let db;
+    if (test) {
+      db = await connTest();
+    } else {
+      db = await conn();
+    }
 
   const pets = await db.all(sql);
 
   return pets;
 }
 
-async function search(nome) {
-  nome=`%${nome}%`
+async function search(nome, test) {
+  nome = `%${nome}%`;
   const sql = `
     SELECT
       *
@@ -50,14 +59,19 @@ async function search(nome) {
       nome LIKE ? AND id <> 0
   `;
 
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   const pets = await db.all(sql, nome);
 
   return pets;
 }
 
-async function readById(id) {
+async function readById(id, test) {
   const sql = `
     SELECT
       *
@@ -67,16 +81,21 @@ async function readById(id) {
       id=? AND id <> 0
   `;
 
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   const pets = await db.get(sql, id);
 
   return pets;
 }
 
-async function update(id, data) {
-  for (const campo in data){
-    if(data[campo].length<1){
+async function update(id, data, test) {
+  for (const campo in data) {
+    if (data[campo].length < 1) {
       return -1;
     }
   }
@@ -89,7 +108,12 @@ async function update(id, data) {
       id = ? AND id <> 0
   `;
 
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   const { nome, tutor, telefone, endereco } = data;
 
@@ -98,7 +122,7 @@ async function update(id, data) {
   return changes;
 }
 
-async function destroy(id) {
+async function destroy(id, test) {
   const sql = `
     DELETE FROM
       pets
@@ -106,15 +130,20 @@ async function destroy(id) {
       id = ? AND id <> 0
   `;
 
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   const { lastID } = await db.run(sql, [id]);
 
   return lastID;
 }
 
-async function readByName(nome) {
-  nome=`%${nome}%`
+async function readByName(nome, test) {
+  nome = `%${nome}%`;
   const sql = `
     SELECT
       nome, tutor, id
@@ -125,14 +154,19 @@ async function readByName(nome) {
     LIMIT 5
   `;
 
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   const pets = await db.all(sql, nome);
 
   return pets;
 }
 
-async function readFirst5() {
+async function readFirst5(test) {
   const sql = `
     SELECT
       nome, tutor, id
@@ -143,7 +177,12 @@ async function readFirst5() {
     LIMIT 5
   `;
 
-  const db = await conn();
+    let db;
+    if (test) {
+      db = await connTest();
+    } else {
+      db = await conn();
+    }
 
   const pets = await db.all(sql);
 

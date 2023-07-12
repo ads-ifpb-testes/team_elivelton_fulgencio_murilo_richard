@@ -1,6 +1,6 @@
-const { conn } = require("../db");
+const { conn, connTest } = require('../db');
 
-async function create(data) {
+async function create(data, test) {
   const sql = `
   INSERT INTO 
     atendimentoTipo (id, tipo) 
@@ -8,7 +8,12 @@ async function create(data) {
     (?, ?)
   `;
 
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   const { id, tipo } = data;
 
@@ -17,7 +22,7 @@ async function create(data) {
   return lastID;
 }
 
-async function readAll() {
+async function readAll(test) {
   const sql = `
     SELECT
       *
@@ -25,14 +30,19 @@ async function readAll() {
       atendimentoTipo
   `;
 
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   const tipos = await db.all(sql);
 
   return tipos;
 }
 
-async function readById(id) {
+async function readById(id, test) {
   const sql = `
     SELECT
       *
@@ -42,14 +52,19 @@ async function readById(id) {
       id=?
   `;
 
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   const tipos = await db.get(sql, id);
 
   return tipos;
 }
 
-async function readByType(tipo) {
+async function readByType(tipo, test) {
   const sql = `
     SELECT
       *
@@ -59,14 +74,19 @@ async function readByType(tipo) {
       tipo=?
   `;
 
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   const tipos = await db.get(sql, tipo);
 
   return tipos;
 }
 
-async function update(id, data) {
+async function update(id, data, test) {
   const sql = `
     UPDATE
       atendimentoTipo
@@ -76,7 +96,12 @@ async function update(id, data) {
       id = ?
   `;
 
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   const { tipo } = data;
 
@@ -85,7 +110,7 @@ async function update(id, data) {
   return changes;
 }
 
-async function destroy(id) {
+async function destroy(id, test) {
   const sql = `
     DELETE FROM
       atendimento
@@ -93,7 +118,12 @@ async function destroy(id) {
       id = ?
   `;
 
-  const db = await conn();
+  let db;
+  if (test) {
+    db = await connTest();
+  } else {
+    db = await conn();
+  }
 
   const { lastID } = await db.run(sql, [id]);
 
