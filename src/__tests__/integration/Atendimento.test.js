@@ -100,4 +100,35 @@ describe("Integração com o banco de dados", () => {
     await Pet.destroy(petCriado, true);
     await AtendimentoTipo.destroy(tipoCriado, true);
   });
+
+  
+  test('Não deve ser possível criar atendimento com um campo vazio', async () => {
+    const pet = { nome: 'Macunzá', tutor: 'Eli', telefone: '21321903', endereco: 'Muluguzinho' };
+    const responsavel = {
+      nome: 'Dr. Who?',
+      funcao: 'Tosador',
+      telefone: '3920183',
+      senha: '12345',
+      email: 'emailofwho@gmail.com',
+    };
+
+    const petCriado = await Pet.create(pet, true);
+    const responsavelCriado = await Responsavel.create(responsavel, true);
+    const tipoCriado = await AtendimentoTipo.create({ tipo: 'Atendimento teste'}, true);
+
+    const atendimento = {
+      tipoAtendimento: 'Atendimento teste',
+      responsavel: responsavelCriado,
+      descricao: '',
+      pet: petCriado,
+      date: `${new Date()}`,
+    };
+
+    const atendimentoResultado = await Atendimento.create(atendimento, true);
+    
+    expect(atendimentoResultado).toBe(-1);
+    await Pet.destroy(petCriado, true)
+    await AtendimentoTipo.destroy(tipoCriado, true)
+    await Responsavel.destroy(responsavelCriado, true)
+  })
 });
