@@ -38,6 +38,5 @@ describe('Integração com o banco de dados', () => {
     await Responsavel.destroy(responsavelCriado, true)
     await Pet.destroy(petCriado, true)
     await AtendimentoTipo.destroy(tipoCriado, true)
-    // console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa");
   });
 });
