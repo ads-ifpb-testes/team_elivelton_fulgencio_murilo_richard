@@ -46,10 +46,10 @@
         <form action="/home" method="POST" class="gap-3 d-flex flex-row justify-content-between align-items-center">
             <div class="descricao-search ">
               <label for="descricao" class="fw-semibold">Descrição:</label>
-              <input name="descricao" class="rounded-1 border-1">
+              <input name="descricao" id="desc-search" class="rounded-1 border-1">
             </div>
             <div class="type-search">
-              <select name="tipoAtendimento">
+              <select name="tipoAtendimento" id="tipo-search">
                   <option value="">Todos os tipos</option>
                   <% for (let tipo of tipos) { %>
                       <option value="<%= tipo.tipo %>"><%= tipo.tipo %></option>    
@@ -57,7 +57,7 @@
               </select>
             </div>
             <div class="button-search">
-              <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+              <button id="button-search" class="btn btn-primary"><i class="fas fa-search"></i></button>
           </div>
       </form>
       </div>
@@ -99,7 +99,7 @@
                   </div>
                 </div>
                 <div class="card-body overflow-auto mh-100">
-                  <p class="card-text">
+                  <p class="card-text" id="desc-atendimento">
                     <%= atendimento.descricao %>
                   </p>
                 </div>
@@ -129,6 +129,11 @@
             <% } %>
               <% } %>
       </div>
+      <script>
+        const cardsAntes = document.querySelectorAll('.card');
+        console.log(Array.from(cardsAntes).some(card => card.children[1].children[0].textContent.trim() == 'Descrição Teste' ))
+
+      </script>
 
       <%- include ('partials/scripts.ejs'); %>
     </body>
