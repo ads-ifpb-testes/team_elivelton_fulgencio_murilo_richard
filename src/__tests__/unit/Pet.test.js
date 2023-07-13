@@ -102,14 +102,12 @@ describe('Serviço de pets', () => {
     };
 
     const petsAntes = await Pet.readAll(true);
-    const qntPetsAntes = petsAntes.length;
 
-    await Pet.create(pet1, true);
+    const petComId = await Pet.create(pet1, true);
 
     const petsDepois = await Pet.readAll(true);
-    const qntPetsDepois = petsDepois.length;
 
-    expect(qntPetsDepois).toBe(qntPetsAntes + 1);
+    expect(petComId).toBe(id);
   });
 
   test('Não deve ser possível criar um pet com um Id que já está no banco', async () => {
