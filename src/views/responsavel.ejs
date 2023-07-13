@@ -25,7 +25,7 @@
 <body>
   <div class="form bg-secondary p-5 text-white w-100 d-flex flex-column align-items-center justify-content-center">
     <div class="back-button d-flex justify-content-start w-100">
-      <a href="/home" class="text-white pb-3 fs-4"><i class="fa-solid fa-arrow-left"></i></a>
+      <a href="/home" class="text-white pb-3 fs-4" id="botaoVoltar"><i class="fa-solid fa-arrow-left"></i></a>
   </div>
   <div class="logo-happy-pet">
     <%- include ('partials/logo.ejs') %>
@@ -58,7 +58,7 @@
           <input type="password" name="senhaConf" id="senhaResConf" class="rounded-1 <%= erro && erro.path[0]==="senhaConf" ? 'border border-danger' : '' %> ">
       </br>
       <div class="button-send d-flex justify-content-center mt-4">
-        <button type="submit" class="btn btn-outline-light w-100">Enviar</button>
+        <button type="submit" class="btn btn-outline-light w-100" id="enviarRes">Enviar</button>
     </div>
     </form>
   </div>
