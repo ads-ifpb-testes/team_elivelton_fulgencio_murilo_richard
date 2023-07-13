@@ -52,14 +52,14 @@
             </br>
                 <label for="senha">Senha nova</label>
             </br>
-                <input type="password" name="senhaNova" class="rounded-1 <%= erro && erro.path[0]==="senha" ? 'border border-danger' : '' %> ">
+                <input type="password" name="senhaNova" id="senhaResNova" class="rounded-1 <%= erro && erro.path[0]==="senha" ? 'border border-danger' : '' %> ">
             </br>
                 <label for="passwordConf">Confirmar senha</label>
             </br>
                 <input type="password" name="senhaConf" id="senhaResConf" class="rounded-1 <%= erro && erro.path[0]==="senhaConf" ? 'border border-danger' : '' %> ">
             </br>
             <div class="button-send d-flex justify-content-center mt-4">
-                <button type="submit" class="btn btn-outline-light w-100">Enviar</button>
+                <button type="submit" class="button-send-responsavel btn btn-outline-light w-100">Enviar</button>
             </div>
             </form>
         </div>
