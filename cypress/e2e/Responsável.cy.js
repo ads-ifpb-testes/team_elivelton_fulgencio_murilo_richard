@@ -36,7 +36,14 @@ describe('template spec', () => {
     cy.get('#senhaRes').type('1234'); 
     cy.get('#senhaResConf').type('1234');
     cy.get('#enviarRes').click();
-    cy.get('#botaoVoltar').click();
+
+    cy.get(".card-responsaveis").last().should((text) => {
+      const val = text.get(0).innerText
+      expect(val).to.include("hectorbolinha@gmail.com")
+  });
+
+  cy.get('#botaoVoltar').click();
+
   });
 
 });
