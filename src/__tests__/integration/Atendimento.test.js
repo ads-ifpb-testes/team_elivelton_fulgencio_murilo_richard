@@ -131,4 +131,50 @@ describe("Integração com o banco de dados", () => {
     await AtendimentoTipo.destroy(tipoCriado, true)
     await Responsavel.destroy(responsavelCriado, true)
   })
+
+  
+  test("Deve ser possível remover um atendimento da base de dados", async () => {
+    const pet = {
+      nome: "petTest",
+      tutor: "tutorTeste",
+      telefone: "40028922",
+      endereco: "endTeste",
+    };
+
+    const responsavel = {
+      nome: "responsavelTeste",
+      funcao: "Testador",
+      telefone: "40028922",
+      senha: "12345",
+      email: "emailTesteo@gmail.com",
+    };
+
+    const petCriado = await Pet.create(pet, true);
+    const responsavelCriado = await Responsavel.create(responsavel, true);
+    const tipoCriado = await AtendimentoTipo.create(
+      { tipo: "Atendimento teste" },
+      true
+    );
+
+    const atendimento = {
+      tipoAtendimento: "Atendimento teste",
+      responsavel: responsavelCriado,
+      descricao: "Testar os atendimentos",
+      pet: petCriado,
+      date: `${new Date()}`,
+    };
+
+    await Atendimento.create(atendimento, true);
+
+    const atendimentos = await Atendimento.readAll(true);
+    const indice = atendimentos.length - 1;
+    const id = atendimentos[indice].id;
+
+    const destroy = await Atendimento.destroy(id, true);
+
+    expect(destroy).toBe(0);
+    await Pet.destroy(petCriado, true);
+    await AtendimentoTipo.destroy(tipoCriado, true);
+    await Responsavel.destroy(responsavelCriado, true);
+  });
 });
