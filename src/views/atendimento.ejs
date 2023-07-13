@@ -32,7 +32,7 @@
     <body>
         <div class="form bg-secondary p-5 text-white w-100 d-flex flex-column align-items-center justify-content-center">
             <div class="back-button d-flex justify-content-start w-100">
-                <a href="/home" class="text-white pb-3 fs-4"><i class="fa-solid fa-arrow-left"></i></a>
+                <a href="/home" id="return-button" class="text-white pb-3 fs-4"><i class="fa-solid fa-arrow-left"></i></a>
             </div>
             <div class="logo-happy-pet">
                 <%- include ('partials/logo.ejs') %>
@@ -53,7 +53,7 @@
                 <% if (responsavelPesquisado) {%>
                     <input list="responsavelAtend" name="responsavelInput" value="<%= responsavelPesquisado %>">
                     <% } else { %>
-                        <input list="responsavelAtend" name="responsavelInput" class="rounded-1">
+                        <input list="responsavelAtend" id="responsavelInput" name="responsavelInput" class="rounded-1">
                         <% } %>
                             <datalist id="responsavelAtend">
                                 <% if (responsaveis.length> 0) {%>
@@ -80,7 +80,7 @@
                             <% if (petPesquisado) {%>
                                 <input list="petAtend" name="petInput" value="<%= petPesquisado %>">
                                 <% } else { %>
-                                    <input list="petAtend" name="petInput" class="rounded-1">
+                                    <input list="petAtend" id='petInput' name="petInput" class="rounded-1">
                                     <% } %>
                                         <datalist id="petAtend">
                                             <% if (pets.length> 0) {%>
@@ -102,7 +102,7 @@
                                                         <% } %>
                                         </select>
                                         <br>
-                                        <input type="submit" name="pesquisar" value="Pesquisar pet ou responsavel" class="btn btn-outline-light w-100 mt-2" />
+                                        <input type="submit" id="search-pr" name="pesquisar" value="Pesquisar pet ou responsavel" class="btn btn-outline-light w-100 mt-2" />
                                         </br>
                                         <label for="descricao" class="mt-3">Descrição</label>
                                         </br>
@@ -116,7 +116,7 @@
                                         ">
                                         </br>
                                         <div class="button-send d-flex justify-content-center mt-4">
-                                            <button type="submit" class="btn btn-outline-light w-100">Enviar</button>
+                                            <button type="submit" id="send-atendimento" class="btn btn-outline-light w-100">Enviar</button>
                                         </div>
             </form>
         </div>
