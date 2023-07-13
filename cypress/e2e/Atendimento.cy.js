@@ -69,4 +69,28 @@ describe('template spec', () => {
         expect(val).to.include('Descrição Teste');
       });
   });
+
+  it("Deve ser possível editar um atendimento", () => {
+    //Logar como admin
+    cy.get('#open-atendimento-page').click();
+    cy.get('.form-login').should('exist');
+
+    cy.get('#login-email').type(Cypress.env('email'));
+    cy.get('#login-password').type(Cypress.env('senha'));
+    cy.get('#button-login').click();
+
+    cy.url().should('eq', `${host}/home`);
+
+    //teste
+    cy.get(".editar-atendimento").last().click();
+
+    cy.get("#descricaoAtend").type(" alterada com sucesso");
+
+    cy.get('.button-send').click();
+
+    cy.get(".card-atendimentos").last().should((text) => {
+      const val = text.get(0).innerText
+      expect(val).to.include("Descrição Teste alterada com sucesso")
+  });
+  });
 });
