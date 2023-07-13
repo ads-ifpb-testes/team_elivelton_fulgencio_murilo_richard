@@ -87,8 +87,8 @@
                         <button class="edit-responsavel text-dark fas fa-pen" type="submit"></button>
                       </form>
                       <form action="/responsavel/delete" method="GET">
-                        <input type="hidden" name="id" value="<%= responsavel.id %>" />
-                        <button class="text-dark fas fa-trash" type="submit"></button>
+                        <input class="delete-responsavel-id" type="hidden" name="id" value="<%= responsavel.id %>" />
+                        <button class="delete-button-responsavel text-dark fas fa-trash" type="submit"></button>
                       </form>
                     </span>
                   </div>

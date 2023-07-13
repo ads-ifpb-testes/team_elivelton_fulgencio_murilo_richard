@@ -46,4 +46,27 @@ describe('template spec', () => {
 
   });
 
+  it("Deve ser possível deletar um responsável", () => {
+    cy.get('#open-responsavel-page').click();
+    cy.get('.form-login').should('exist');
+
+    cy.get('#login-email').type(Cypress.env('email'));
+    cy.get('#login-password').type(Cypress.env('senha'));
+    cy.get('#button-login').click();
+
+    cy.url().should('eq', `${host}/home`);
+    cy.get('#open-responsavel-page').click();
+
+    cy.get(".delete-responsavel-id")
+      .last()
+      .then((id1) => {
+        cy.get(".delete-button-responsavel").last().click();
+
+        cy.get("#confirm-delete").click();
+        cy.get(".delete-responsavel-id").last().then((id2) => {
+          expect(id1).not.to.eq(id2);
+        });
+      });
+  });
+
 });
