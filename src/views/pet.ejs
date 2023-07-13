@@ -89,8 +89,8 @@
                                                 <button class="edit-button-pet text-dark fas fa-pen" type="submit"></button>
                                             </form>
                                             <form action="/pet/delete" method="GET">
-                                                <input type="hidden" name="id" value="<%= pet.id %>" />
-                                                <button class="text-dark fas fa-trash" type="submit"></button>
+                                                <input class="delete-pet-id" type="hidden" name="id" value="<%= pet.id %>" />
+                                                <button class="delete-button-pet text-dark fas fa-trash" type="submit"></button>
                                             </form>
                                         </span>
                                     </div>
