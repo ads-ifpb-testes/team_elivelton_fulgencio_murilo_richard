@@ -6,6 +6,7 @@ describe('template spec', () => {
   beforeEach(() => cy.visit(host));
 
   it('Deve ser possível cadastrar um novo atendimento', () => {
+    //Para cadastrar um novo atendimento o responsável deve estar logado
     cy.get('#open-atendimento-page').click();
     cy.get('.form-login').should('exist');
 
@@ -15,6 +16,7 @@ describe('template spec', () => {
 
     cy.url().should('eq', `${host}/home`);
 
+    //Para cadastrar um novo atendimento deve existir um pet
     cy.get('#pet-page').click();
     cy.get('.form-pet').should('exist');
 
@@ -29,6 +31,7 @@ describe('template spec', () => {
 
     cy.url().should('eq', `${host}/home`);
 
+    //Para cadastrar um novo atendimento deve ser aberto a página de atendimento
     cy.get('#open-atendimento-page').click();
     cy.get('#tipoAtend').select('Tosa');
     cy.get('#responsavelInput').type('admin');
@@ -51,5 +54,19 @@ describe('template spec', () => {
     cy.get('#card-atendimentos-container')
       .find('.card-atendimentos')
       .should('have.length.at.least', cardsAntes + 1);
+  });
+
+  it('Deve ser possível buscar um atendimento pela descrição e tipo', () => {
+    cy.get('#desc-search').type('Descrição Teste');
+    cy.get('#tipo-search').select('Banho');
+
+    cy.get('#button-search').click();
+
+    cy.get('.card')
+      .last()
+      .should((card) => {
+        const val = card.get(0).innerText;
+        expect(val).to.include('Descrição Teste');
+      });
   });
 });
