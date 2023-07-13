@@ -46,6 +46,41 @@ describe('template spec', () => {
 
   });
 
+
+  it("Deve ser possível editar um responsável", () => {
+    //Logar como admin
+    cy.get('#open-responsavel-page').click();
+    cy.get('.form-login').should('exist');
+
+    cy.get('#login-email').type('hectorbolinha@gmail.com');
+    cy.get('#login-password').type('1234');
+    cy.get('#button-login').click();
+
+    cy.url().should('eq', `${host}/home`);
+
+    //teste
+
+    cy.get('#open-responsavel-page').click();
+
+    cy.get('.edit-responsavel').last().click();
+
+    cy.get("#nomeRes").type(" Filho");
+    cy.get("#funcaoRes").clear().type("Tosador");
+    cy.get("#telefoneRes").clear().type("839293849");
+    cy.get("#emailRes").clear().type("hectorbolinhas@gmail.com");
+    cy.get("#senhaRes").type("1234");
+    cy.get("#senhaResNova").type("1234");
+    cy.get("#senhaResConf").type("1234");
+
+    cy.get('.button-send-responsavel').click();
+
+    cy.get(".card-responsaveis").last().should((text) => {
+      const val = text.get(0).innerText
+      expect(val).to.include("Dr. Hector Bonilha Filho")
+  });
+  });
+
+
   it("Deve ser possível deletar um responsável", () => {
     cy.get('#open-responsavel-page').click();
     cy.get('.form-login').should('exist');
@@ -67,6 +102,5 @@ describe('template spec', () => {
           expect(id1).not.to.eq(id2);
         });
       });
-  });
-
+  });  
 });
