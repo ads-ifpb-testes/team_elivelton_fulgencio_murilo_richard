@@ -130,6 +130,21 @@ const router = express.Router();
 const responsavelAPIController = require("../controllers/responsavelAPIController");
 const userAuth = require("../middleware/userAuth");
 const { celebrate, Joi, Segments } = require("celebrate");
+const path = require("path");
+
+const multer = require("multer");
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, path.join(__dirname, "../images"))
+  },
+
+  filename: (req, file, callback) => {
+    callback(null, Date.now() + path.extname(file.originalname))
+  }
+});
+
+const upload = multer({storage: storage});
+
 /**
  * @swagger
  * /api/v1/responsavel:
@@ -154,6 +169,9 @@ const { celebrate, Joi, Segments } = require("celebrate");
  *        description: Cabeçalho de token vazio ou token inválido
  */
 router.get("/", userAuth.apiAuth, responsavelAPIController.readAll);
+router.get("/verify", userAuth.apiAuth, (req, res) => {
+  res.status(200).json({})
+})
 /**
  * @swagger
  * /api/v1/responsavel:
@@ -299,6 +317,7 @@ router.post(
  */
 router.post(
   "/create",
+  upload.single("image"),
   userAuth.apiAuth,
   celebrate({
     [Segments.BODY]: Joi.object().keys({
@@ -346,7 +365,7 @@ router.post(
  *        description: Responsável não encontrado!
  */
 router.delete(
-  "/delete",
+  "/delete/:deleteId",
   userAuth.apiAuth,
   celebrate({
     [Segments.BODY]: Joi.object().keys({
@@ -388,6 +407,7 @@ router.delete(
  */
 router.patch(
   "/edit",
+  upload.single("image"),
   userAuth.apiAuth,
   celebrate({
     [Segments.BODY]: Joi.object().keys({
@@ -401,6 +421,12 @@ router.patch(
     }),
   }),
   responsavelAPIController.editResponsavel
+);
+
+router.patch(
+  "/editSimple/:editedId",
+  userAuth.apiAuth,
+  responsavelAPIController.editResponsavelSimple
 );
 
 module.exports = router;

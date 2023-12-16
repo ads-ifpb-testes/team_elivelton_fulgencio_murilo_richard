@@ -68,6 +68,20 @@ const router = express.Router();
 const petAPIController = require("../controllers/petAPIController");
 const userAuth = require("../middleware/userAuth");
 const { celebrate, Joi, Segments } = require("celebrate");
+const path = require("path");
+
+const multer = require("multer");
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, path.join(__dirname, "../images"))
+  },
+
+  filename: (req, file, callback) => {
+    callback(null, Date.now() + path.extname(file.originalname))
+  }
+});
+
+const upload = multer({storage: storage});
 
 /**
  * @swagger
@@ -125,11 +139,11 @@ router.get("/", userAuth.apiAuth, petAPIController.readAll);
  *      404:
  *        description: Pet não encontrado!
  */
-router.post(
-  "/",
+router.get(
+  "/:id",
   userAuth.apiAuth,
   celebrate({
-    [Segments.BODY]: Joi.object().keys({
+    [Segments.PARAMS]: Joi.object().keys({
       id: Joi.required(),
     }),
   }),
@@ -165,6 +179,7 @@ router.post(
 router.post(
   "/create",
   userAuth.apiAuth,
+  upload.single("image"),
   celebrate({
     [Segments.BODY]: Joi.object().keys({
       nome: Joi.string().required(),
@@ -253,11 +268,11 @@ router.post(
  *        description: Pet não encontrado!
  */
 router.delete(
-  "/delete",
+  "/delete/:deleteId",
   userAuth.apiAuth,
   celebrate({
-    [Segments.BODY]: Joi.object().keys({
-      id: Joi.required(),
+    [Segments.PARAMS]: Joi.object().keys({
+      deleteId: Joi.required(),
     }),
   }),
   petAPIController.deletePet
@@ -294,6 +309,7 @@ router.delete(
 router.patch(
   "/edit",
   userAuth.apiAuth,
+  upload.single("image"),
   celebrate({
     [Segments.BODY]: Joi.object().keys({
       id: Joi.required(),
@@ -306,4 +322,9 @@ router.patch(
   petAPIController.editPet
 );
 
+router.post("/endereco",
+  userAuth.apiAuth,
+  petAPIController.getEndereco
+)
+  
 module.exports = router;

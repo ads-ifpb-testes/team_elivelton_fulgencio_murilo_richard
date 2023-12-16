@@ -13,7 +13,7 @@ const pesquisa = async (req, res) => {
 
 const createPet = async (req, res) => {
   const { nome, tutor, telefone, endereco } = req.body;
-  const pet = { nome, tutor, telefone, endereco };
+  const pet = { nome, tutor, telefone, endereco, imagem: req.file.filename };
 
   await Pet.create(pet);
   res.redirect("/pet");
@@ -43,7 +43,7 @@ const editPetForm = async (req, res) => {
 const editPet = async (req, res) => {
   const { id } = req.body;
   const { nome, tutor, telefone, endereco } = req.body;
-  const pet = { nome, tutor, telefone, endereco };
+  const pet = { nome, tutor, telefone, endereco, imagem: req.file.filename };
 
   await Pet.update(id, pet);
   res.redirect("/pet");

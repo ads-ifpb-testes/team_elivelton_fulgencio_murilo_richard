@@ -4,11 +4,28 @@ const responsavelController = require("../controllers/responsavelController");
 const { celebrate, Joi, Segments, isCelebrateError } = require("celebrate");
 const userAuth = require("../middleware/userAuth");
 
+const path = require("path");
+
+const multer = require("multer");
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, path.join(__dirname, "../images"))
+  },
+
+  filename: (req, file, callback) => {
+    callback(null, Date.now() + path.extname(file.originalname))
+  }
+});
+
+const upload = multer({storage: storage});
+
+
 router.get("/", userAuth.userAuth, responsavelController.index);
 router.post("/pesquisa", userAuth.userAuth, responsavelController.pesquisa);
 router.post(
   "/",
   userAuth.userAuth,
+  upload.single("image"),
   celebrate({
     [Segments.BODY]: Joi.object().keys({
       nome: Joi.string().required(),
@@ -27,6 +44,7 @@ router.get("/edit", userAuth.userAuth, responsavelController.editResponsavelForm
 router.post(
   "/edit",
   userAuth.userAuth,
+  upload.single("image"),
   celebrate({
     [Segments.BODY]: Joi.object().keys({
       id: Joi.string().required(),

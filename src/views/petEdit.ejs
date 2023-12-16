@@ -28,7 +28,7 @@
         </div>
         <h1>EDITAR PET</h1>
         <div class="form-pet">
-            <form action="/pet/edit" method="POST">
+            <form action="/pet/edit" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="id" value="<%= pet.id %>">
                 <label for="nome">Nome</label>
             </br>
@@ -41,6 +41,10 @@
                 <label for="telefone">Telefone</label>
             </br>
                 <input type="text" name="telefone" id="telefonePet" value="<%= pet.telefone %>" class="rounded-1 <%= erro && erro.path[0]==="telefone" ? 'border border-danger' : '' %> ">
+            </br>
+                <label for="image">Imagem</label>
+            </br>
+                <input type="file" name="image" id="imageRes" class="rounded-1 <%= erro && erro.path[0]==="image" ? 'border border-danger' : '' %> ">
             </br>
                 <label for="endereco">Endereco</label>
             </br>

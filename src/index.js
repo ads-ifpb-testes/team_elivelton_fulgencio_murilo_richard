@@ -43,6 +43,8 @@ app.use(
 
 const routes = require("./routes");
 app.use(express.static("public"));
+app.use("/images", express.static("src/images"));
+app.use("/api/v1/images", express.static("src/images"));
 
 app.set("view engine", "ejs");
 app.set("views", path.resolve(__dirname, "views"));

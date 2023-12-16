@@ -32,7 +32,7 @@
 </div>
     <h1>CADASTRAR RESPONSÁVEL</h1>
     <div class="form-responsavel">
-      <form action="/responsavel" method="post">
+      <form action="/responsavel" method="post" enctype="multipart/form-data">
           <label for="nome">Nome</label>
       </br>
           <input type="text" name="nome" id="nomeRes" class="rounded-1 <%= erro && erro.path[0]==="nome" ? 'border border-danger' : '' %> ">
@@ -48,6 +48,10 @@
           <label for="email">Email</label>
       </br>
           <input type="email" name="email" id="emailRes" class="rounded-1 <%= erro && erro.path[0]==="email" ? 'border border-danger' : '' %> ">
+      </br>
+        <label for="image">Imagem</label>
+      </br>
+        <input type="file" name="image" id="imageRes" class="rounded-1 <%= erro && erro.path[0]==="image" ? 'border border-danger' : '' %> ">
       </br>
           <label for="senha">Senha</label>
       </br>

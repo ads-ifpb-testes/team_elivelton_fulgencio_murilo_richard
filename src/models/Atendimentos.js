@@ -21,7 +21,6 @@ async function create(data, test) {
   }
 
   let { tipoAtendimento, responsavel, pet, descricao, date, completo } = data;
-  //console.log(new Date(date).toISOString().slice(0,16));
   date = new Date(date).toISOString().slice(0, 16);
   const { lastID } = await db.run(sql, [
     tipoAtendimento,
@@ -75,7 +74,7 @@ async function readAll(test) {
 async function readAllAPI(test) {
   const sql = `
     SELECT
-      a.id, a.tipoAtendimento, a.descricao, a.date, r.nome as responsavel, p.nome as pet, a.complete as complete
+      a.id, a.tipoAtendimento as tipo, a.descricao, a.date as data, r.nome as responsavel, p.nome as nome, p.endereco as endereco, p.imagem as imagem, a.complete as status, p.id as petId, r.id as responsavelId
     FROM
       atendimentos a 
     INNER JOIN 
@@ -146,7 +145,7 @@ async function search(pesquisa, test) {
 async function readById(id, test) {
   const sql = `
     SELECT
-      a.id, a.tipoAtendimento, a.descricao, a.date, r.nome as responsavel, p.nome as pet, a.complete as complete
+      a.id, a.tipoAtendimento, a.descricao, a.date, r.nome as responsavel, p.nome as pet, a.complete as complete, p.id as petId, r.id as responsavelId
     FROM
       atendimentos a 
     INNER JOIN 
@@ -196,8 +195,8 @@ async function update(id, data, test) {
   }
 
   const { tipoAtendimento, responsavel, pet, descricao, date } = data;
-
-  const { changes } = await db.run(sql, [tipoAtendimento, responsavel, pet, descricao, date, id]);
+  const dateFormated = new Date(date).toISOString().slice(0, 16);
+  const { changes } = await db.run(sql, [tipoAtendimento, responsavel, pet, descricao, dateFormated, id]);
 
   return changes;
 }

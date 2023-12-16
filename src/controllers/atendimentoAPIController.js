@@ -9,8 +9,8 @@ const readAll = async (req, res) => {
 };
 
 const readById = async (req, res) => {
-  const { id } = req.body;
-  const atendimento = await Atendimento.readById(id);
+  const id = req.params.id
+  const atendimento = await Atendimento.readById(parseInt(id));
   if (atendimento) {
     res.json({ atendimento });
   } else {
@@ -61,11 +61,11 @@ const createAtendimento = async (req, res) => {
 };
 
 const deleteAtendimento = async (req, res) => {
-  const { id } = req.body;
-  const atendimento = await Atendimento.readById(id);
+  const deleteId = req.params.deleteId
+  const atendimento = await Atendimento.readById(deleteId);
   if (atendimento) {
-    await Atendimento.destroy(id);
-    res.json({ id });
+    await Atendimento.destroy(deleteId);
+    res.json({ deleteId });
   } else {
     res.status(404).json({ error: `Atendimento não encontrado!` });
   }
@@ -86,9 +86,9 @@ const editAtendimento = async (req, res) => {
 
 const completeAtendimento = async (req, res) => {
   const { id } = req.body;
-  if (await Atendimento.readById(id)) {
-    await Atendimento.complete(id);
-    const atendimentoComplete = await Atendimento.readById(id);
+  if (await Atendimento.readById(parseInt(id))) {
+    await Atendimento.complete(parseInt(id));
+    const atendimentoComplete = await Atendimento.readById(parseInt(id));
     res.json(atendimentoComplete);
   } else {
     res.status(404).json({ error: `Atendimento não encontrado!` });

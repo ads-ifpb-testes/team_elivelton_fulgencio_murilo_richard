@@ -31,6 +31,7 @@ async function up() {
       telefone: process.env.TELEFONE,
       email: process.env.EMAIL,
       senha: hashSenha,
+      imagem: "img"
     };
     await Promise.all([Responsaveis.create(admin), Responsaveis.create(admin, true)]);
   } catch (e) {

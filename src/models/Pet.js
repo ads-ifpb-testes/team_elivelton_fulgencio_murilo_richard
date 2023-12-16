@@ -8,9 +8,9 @@ async function create(data, test) {
   }
   const sql = `
   INSERT INTO 
-    pets (nome, tutor, telefone, endereco, id) 
+    pets (nome, tutor, telefone, endereco, id, imagem) 
   VALUES 
-    (?, ?, ?, ?, ?)
+    (?, ?, ?, ?, ?, ?)
   `;
   let db;
   if (test) {
@@ -19,9 +19,9 @@ async function create(data, test) {
     db = await conn();
   }
 
-  const { nome, tutor, telefone, endereco, id } = data;
+  const { nome, tutor, telefone, endereco, id, imagem } = data;
 
-  const { lastID } = await db.run(sql, [nome, tutor, telefone, endereco, id]);
+  const { lastID } = await db.run(sql, [nome, tutor, telefone, endereco, id, imagem]);
 
   return lastID;
 }
@@ -103,7 +103,7 @@ async function update(id, data, test) {
     UPDATE
       pets
     SET
-      nome = ?, tutor = ?, telefone = ?, endereco = ?
+      nome = ?, tutor = ?, telefone = ?, endereco = ?, imagem = ?
     WHERE
       id = ? AND id <> 0
   `;
@@ -115,9 +115,9 @@ async function update(id, data, test) {
     db = await conn();
   }
 
-  const { nome, tutor, telefone, endereco } = data;
+  const { nome, tutor, telefone, endereco, imagem } = data;
 
-  const { changes } = await db.run(sql, [nome, tutor, telefone, endereco, id]);
+  const { changes } = await db.run(sql, [nome, tutor, telefone, endereco, imagem, id]);
 
   return changes;
 }
@@ -146,7 +146,7 @@ async function readByName(nome, test) {
   nome = `%${nome}%`;
   const sql = `
     SELECT
-      nome, tutor, id
+      *
     FROM
       pets
     WHERE
@@ -169,7 +169,7 @@ async function readByName(nome, test) {
 async function readFirst5(test) {
   const sql = `
     SELECT
-      nome, tutor, id
+      *
     FROM
       pets
     WHERE

@@ -8,9 +8,9 @@ async function create(data, test) {
   }
   const sql = `
   INSERT INTO 
-    responsaveis (nome, funcao, telefone, email, senha, id) 
+    responsaveis (nome, funcao, telefone, email, senha, imagem, id) 
   VALUES 
-    (?, ?, ?, ?, ?, ?)
+    (?, ?, ?, ?, ?, ?, ?)
   `;
 
   let db;
@@ -20,9 +20,9 @@ async function create(data, test) {
     db = await conn();
   }
 
-  const { nome, funcao, telefone, email, senha, id } = data;
+  const { nome, funcao, telefone, email, senha, id, imagem } = data;
 
-  const { lastID } = await db.run(sql, [nome, funcao, telefone, email, senha, id]);
+  const { lastID } = await db.run(sql, [nome, funcao, telefone, email, senha, imagem, id]);
 
   return lastID;
 }
@@ -30,11 +30,7 @@ async function create(data, test) {
 async function readAll(test) {
   const sql = `
     SELECT
-      id,
-      nome,
-      funcao,
-      telefone,
-      email
+      *
     FROM
       responsaveis
     WHERE
@@ -79,11 +75,7 @@ async function search(nome, test) {
   nome = `%${nome}%`;
   const sql = `
     SELECT
-      id,
-      nome,
-      funcao,
-      telefone,
-      email
+      *
     FROM
       responsaveis
     WHERE
@@ -134,7 +126,7 @@ async function update(id, data, test) {
     UPDATE
       responsaveis
     SET
-      nome = ?, funcao = ?, telefone = ?, email = ?, senha = ?
+      nome = ?, funcao = ?, telefone = ?, email = ?, senha = ?, imagem = ?
     WHERE
       id = ? AND id <> 0
   `;
@@ -146,9 +138,9 @@ async function update(id, data, test) {
     db = await conn();
   }
 
-  const { nome, funcao, telefone, email, senha } = data;
+  const { nome, funcao, telefone, email, senha, imagem } = data;
 
-  const { changes } = await db.run(sql, [nome, funcao, telefone, email, senha, id]);
+  const { changes } = await db.run(sql, [nome, funcao, telefone, email, senha, imagem, id]);
 
   return changes;
 }
@@ -161,6 +153,15 @@ async function destroy(id, test) {
       id = ? AND id <> 0
   `;
 
+  const sqlUpdate = `
+    UPDATE
+      atendimentos
+    SET
+      responsavel = 0
+    WHERE
+      id = ?
+  `;
+
   let db;
   if (test) {
     db = await connTest();
@@ -169,6 +170,7 @@ async function destroy(id, test) {
   }
 
   const { lastID } = await db.run(sql, [id]);
+  await db.run(sqlUpdate, [id]);
 
   return lastID;
 }
@@ -177,7 +179,7 @@ async function readByName(nome, test) {
   nome = `%${nome}%`;
   const sql = `
     SELECT
-      nome, id
+      *
     FROM
       responsaveis
     WHERE
@@ -200,7 +202,7 @@ async function readByName(nome, test) {
 async function readFirst5(test) {
   const sql = `
     SELECT
-      nome, id
+      *
     FROM
       responsaveis
     WHERE

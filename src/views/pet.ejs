@@ -35,7 +35,7 @@
             </div>
             <h1>CADASTRAR PET</h1>
             <div class="form-pet">
-                <form action="/pet" method="POST">
+                <form action="/pet" method="POST" enctype="multipart/form-data">
                     <label for="nome">Nome</label>
                     </br>
                     <input type="text" name="nome" id="nomePet" class="rounded-1 <%= erro && erro.path[0]==="nome" ? 'border border-danger'
@@ -50,6 +50,10 @@
                     </br>
                     <input type="text" name="telefone" id="telefonePet" class="rounded-1 <%= erro && erro.path[0]==="telefone"
                         ? 'border border-danger' : '' %> ">
+                    </br>
+                    <label for="image">Imagem</label>
+                    </br>
+                        <input type="file" name="image" id="imageRes" class="rounded-1 <%= erro && erro.path[0]==="image" ? 'border border-danger' : '' %> ">
                     </br>
                     <label for="endereco">Endereco</label>
                     </br>

@@ -28,7 +28,7 @@
         </div>
         <h1>EDITAR RESPONSÁVEL</h1>
         <div class="form-responsavel">
-            <form action="/responsavel/edit" method="post">
+            <form action="/responsavel/edit" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="id" value="<%= responsavel.id %>">
                 <label for="nome">Nome</label>
             </br>
@@ -45,6 +45,10 @@
                 <label for="email">Email</label>
             </br>
                 <input type="email" name="email" id="emailRes" value="<%= responsavel.email %>" class="rounded-1 <%= erro && erro.path[0]==="email" ? 'border border-danger' : '' %> ">
+            </br>
+                <label for="image">Imagem</label>
+            </br>
+                <input type="file" name="image" id="imageRes" class="rounded-1 <%= erro && erro.path[0]==="image" ? 'border border-danger' : '' %> ">
             </br>
                 <label for="senha">Senha antiga</label>
             </br>

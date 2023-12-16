@@ -170,8 +170,8 @@ router.get("/", atendimentoAPIController.readAll);
  *      404:
  *        description: Atendimento não encontrado!
  */
-router.post(
-  "/",
+router.get(
+  "/:id",
   userAuth.apiAuth,
   celebrate({
     [Segments.BODY]: Joi.object().keys({
@@ -304,11 +304,11 @@ router.post(
  *        description: Atendimento não encontrado!
  */
 router.delete(
-  "/delete",
+  "/delete/:deleteId",
   userAuth.apiAuth,
   celebrate({
-    [Segments.BODY]: Joi.object().keys({
-      id: Joi.required(),
+    [Segments.PARAMS]: Joi.object().keys({
+      deleteId: Joi.required(),
     }),
   }),
   atendimentoAPIController.deleteAtendimento

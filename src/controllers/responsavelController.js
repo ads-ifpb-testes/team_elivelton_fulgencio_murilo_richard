@@ -17,8 +17,7 @@ const createResponsavel = async (req, res) => {
   try {
     const hashSenha = await bcrypt.hash(req.body.senha, Number(process.env.SALT));
     const { nome, funcao, telefone, email } = req.body;
-    const responsavel = { nome, funcao, telefone, email, senha: hashSenha };
-
+    const responsavel = { nome, funcao, telefone, email, senha: hashSenha, imagem: req.file.filename };
     await Responsavel.create(responsavel);
     res.redirect("/responsavel");
   } catch (e) {
@@ -43,7 +42,6 @@ const login = async (req, res) => {
         res.redirect("/");
         return;
       } else {
-        console.log("Senha errada");
         res.redirect("/responsavel/login");
         return;
       }
@@ -104,7 +102,7 @@ const editResponsavel = async (req, res) => {
       if (await bcrypt.compare(senhaAntiga, responsavel.senha)) {
         try {
           const hashSenha = await bcrypt.hash(senhaNova, Number(process.env.SALT));
-          const responsavelNovo = { nome, funcao, telefone, email, senha: hashSenha };
+          const responsavelNovo = { nome, funcao, telefone, email, senha: hashSenha, imagem: req.file.filename };
           await Responsavel.update(id, responsavelNovo);
           req.session.user = await Responsavel.readById(id);
           res.redirect("/responsavel");
@@ -113,7 +111,6 @@ const editResponsavel = async (req, res) => {
           console.log(e);
         }
       } else {
-        console.log("Senha errada");
         res.redirect("/responsavel");
         return;
       }

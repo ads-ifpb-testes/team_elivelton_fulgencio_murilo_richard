@@ -18,7 +18,7 @@ const userAuth = async (req, res, next) => {
 };
 
 const apiAuth = async (req, res, next) => {
-  const token = req.get("authorization");
+  const token = req.get("Authorization");
   if (token) {
     try {
       jwt.verify(token.split(" ")[1], process.env.SECRET);

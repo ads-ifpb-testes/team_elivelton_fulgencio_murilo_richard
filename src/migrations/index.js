@@ -42,7 +42,8 @@ async function up() {
       funcao TEXT, 
       telefone TEXT,
       senha TEXT,
-      email TEXT UNIQUE
+      email TEXT UNIQUE,
+      imagem TEXT
     )
   `),
     await dbTest.run(`
@@ -52,7 +53,8 @@ async function up() {
       funcao TEXT, 
       telefone TEXT,
       senha TEXT,
-      email TEXT UNIQUE
+      email TEXT UNIQUE,
+      imagem TEXT
     )
   `),
   ]);
@@ -64,7 +66,8 @@ async function up() {
       nome TEXT,
       tutor TEXT,
       telefone TEXT,
-      endereco TEXT
+      endereco TEXT,
+      imagem TEXT
     )
   `),
     await dbTest.run(`
@@ -73,7 +76,8 @@ async function up() {
       nome TEXT,
       tutor TEXT,
       telefone TEXT,
-      endereco TEXT
+      endereco TEXT,
+      imagem TEXT
     )
   `),
   ]);
